@@ -1,0 +1,44 @@
+*,::after, ::before{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+}
+h2{
+      text-align: center;
+      margin-top: 30px;
+}
+form{
+      width: 350px;
+      background: gainsboro;
+      height: auto;
+      position: relative;
+      padding: 25px;
+      margin: 0 auto;
+      border-radius: 15px;
+      top: 80px;
+      
+
+}
+input{
+      
+      height: 32px;
+      border-radius: 10px;
+      bottom: 10px;
+      display: block;
+      margin: 15px auto;
+      border: transparent;   
+
+}
+input:hover{
+      border: none;
+}
+label{
+      margin-top: 10px;
+}
+.send{
+      width: 100px;
+      margin: 50px auto;
+      border-radius: 15px;
+      background:#5efb47 ;
+}
+
