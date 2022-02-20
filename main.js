@@ -1,12 +1,18 @@
 //Récupération des inputs
 
 const inputs = document.querySelectorAll('input[type = "text"], input[type = "password"], input[type = "email"');
+//Déclaration des variables pour chaque input
+let pseudo, email, password, confirmPass;
+// Récupération de la progress-bar pour le mot de passe
+const progressBar = document.getElementById('progress-bar');
+//Récupération du formulaire
+const form = document.getElementById('form')
+
+
+
 // Fonction générale pour toute la logique d'affichage des erreurs;
-
-let pseudo, email, password, confirm;
-
 const errorDisplay = (tag, message, valid) => {
-      const container = document.querySelector("." + tag + "-container")//récupération des tag de façon dynamique;
+      const container = document.querySelector("." + tag + "-container")//récupération des div(-container) de façon dynamique;
       const span = document.querySelector('.' + tag + '-container >span ');
 
       if (!valid) {
@@ -39,13 +45,39 @@ const pseudoChecker = (value) => {
 
 };
 const emailChecker = (value) => {
-      console.log(value)
+      if (!value.match(/^[\w_-]+@[\w-]+\.[a-z]{2,4}$/i)) {
+            errorDisplay("email", "Le mail n'est pas valide!")
+            email = null;
+      } else {
+            errorDisplay('email', "", true)
+            email = value;
+      }
 }
 const passwordChecker = (value) => {
-      console.log(value)
+      progressBar.classList = "";
+      if (!value.match(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/)) {
+            errorDisplay("password", " Minimum de 8 caractéres , une majuscule et un caractére spéciale");
+            progressBar.classList.add("progressRed");
+            password = null;
+      } else if (value.length < 12) {
+            progressBar.classList.add('progressBlue');
+            errorDisplay('password', "", true);
+            password = value;
+      } else {
+            progressBar.classList.add('progressGreen');
+            errorDisplay('password', "", true)
+            password = value;
+      }
+      if (confirmPass) confirmChecker(confirmPass)
 }
 const confirmChecker = (value) => {
-      console.log(value)
+      if (value !== password) {
+            errorDisplay("confirm", "Les mots de passe ne correspondent pas");
+            confirmPass = false
+      } else {
+            errorDisplay("confirm", "", true);
+      }
+
 }
 
 inputs.forEach((input) => {
@@ -69,4 +101,27 @@ inputs.forEach((input) => {
             }
 
       })
+});
+// Envoie du formulaire
+form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (pseudo && email && password && confirm) {
+            data = {
+                  pseudo,
+                  email,
+                  password
+
+            };
+            console.log(data)
+            //Vider les inputs aprés envoie du formulaire
+            inputs.forEach((input) => {
+                  (input.value = "");
+            })
+            progressBar.classList = "";// Pour remmetre la progressBar à zéro;
+            pseudo = null;
+            email = null;
+            password = null
+      } else {
+            alert("Veuillez remplir correctement le formulaire!")
+      }
 })
